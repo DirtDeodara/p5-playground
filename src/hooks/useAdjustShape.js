@@ -7,6 +7,9 @@ const {
   NUMBER_OF_SIDES,
   NUMBER_OF_CIRCLES,
   NUMBER_OF_SPOKES,
+  STEP,
+  DIAMETER,
+  RANGE,
 } = constants
 
 const useAdjustShape = () => {
@@ -33,23 +36,26 @@ const useAdjustShape = () => {
     [SHOULD_SHOW]: false,
     [LINE_THICKNESS]: 1,
     [NUMBER_OF_SPOKES]: 3,
+    [RANGE]: [0, 1],
   })
 
   const [ringOfCirlcesState, setRingOfCirclesState] = useState({
     [SHOULD_SHOW]: false,
     [LINE_THICKNESS]: 1,
     [NUMBER_OF_CIRCLES]: 3,
+    [STEP]: 1,
+    [DIAMETER]: 1
   })
 
   const [radiantLinesState, setRadiantLinesState] = useState({
     [SHOULD_SHOW]: false,
     [LINE_THICKNESS]: 1,
-    [NUMBER_OF_CIRCLES]: 3,
+    [NUMBER_OF_SPOKES]: 3,
+    [RANGE]: [0, 1],
   })
 
   const handleStateChange = (e, key, setter) => {
-    let value = key === SHOULD_SHOW ? e.target.checked : e.target.value
-    console.log(key, value)
+    const value = key === SHOULD_SHOW ? e.target.checked : e.target.value
     setter((prevState) => ({
       ...prevState,
       [key]: value,

@@ -9,33 +9,35 @@ const ShapeControl = ({ name, state, setter }, subControls) => {
 
   return (
     <div className="formItem">
-      <FormControlLabel
-        control={
-          <Switch
-            checked={state.shouldShow}
-            onChange={(e) => handleStateChange(e, SHOULD_SHOW, setter)}
-          />
-        }
-        label={name}
-      />
+      <div>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={state.shouldShow}
+              onChange={(e) => handleStateChange(e, SHOULD_SHOW, setter)}
+            />
+          }
+          label={name}
+        />
+      </div>
       {state.shouldShow &&
-        subControls.map((control) => {
-          const { name, key, rangeStart, rangeStop } = control
+        subControls.map((control, i) => {
+          const { name, key, sliderStart, sliderStop } = control
           return (
-            <>
+            <div key={i}>
               <Typography>{name}</Typography>
               <Slider
                 defaultValue={state[key]}
                 //   getAriaValueText={valuetext}
                 aria-labelledby="discrete-slider"
                 step={1}
-                marks={createSliderMarks(rangeStart, rangeStop)}
-                min={rangeStart}
-                max={rangeStop}
+                marks={createSliderMarks(sliderStart, sliderStop)}
+                min={sliderStart}
+                max={sliderStop}
                 value={state[key]}
                 onChange={(e) => handleStateChange(e, key, setter)}
               />
-            </>
+            </div>
           )
         })}
     </div>

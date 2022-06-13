@@ -1,20 +1,10 @@
 import "./App.css"
-import React, { useState, useEffect, useCallback } from "react"
+import React from "react"
 import { ReactP5Wrapper } from "react-p5-wrapper"
-import {
-  Slider,
-  Switch,
-  FormGroup,
-  FormControlLabel,
-  Typography,
-} from "@mui/material"
+import { FormGroup } from "@mui/material"
 import ShapeControl from "./Controls/ShapeControl"
 import constants from "./utils/constants"
 import useAdjustShape from "./hooks/useAdjustShape"
-
-const valuetext = (numOfLines) => {
-  return `${numOfLines} sides`
-}
 
 const {
   LINE_THICKNESS,
@@ -25,9 +15,14 @@ const {
   numberOfCircles,
   NUMBER_OF_SPOKES,
   numberOfSpokes,
+  STEP,
+  step,
+  DIAMETER,
+  diameter,
+  RANGE,
 } = constants
 
-function App() {
+const App = () => {
   const {
     numOfLines,
     outerCircleState,
@@ -42,11 +37,9 @@ function App() {
     setRingOfCirclesState,
     mainCirclesState,
     setMainCirclesState,
-    handleStateChange,
   } = useAdjustShape()
 
-  const evenNum = numOfLines % 2 === 0
-  const extraRotation = evenNum ? 360 / numOfLines : 270
+  const EXTRA_ROTATION = 270
 
   const CRYSTAL_SIZE = 800
   const RADIUS = CRYSTAL_SIZE / 2
@@ -90,7 +83,7 @@ function App() {
           posX,
           posY,
           radius,
-          i * rotationAngle + extraRotation
+          i * rotationAngle + EXTRA_ROTATION
         )
         p5.vertex(thisVertex.x, thisVertex.y)
       }
@@ -119,26 +112,6 @@ function App() {
       p5.pop()
     }
 
-    const radiantLines = () => {
-      const numOfSteps = coinFlip() ? STEPS_OUT : p5.floor(STEPS_OUT * 1.25)
-      const step = RADIUS / numOfSteps
-      const start = p5.floor(p5.random(0, numOfSteps))
-      const stop = p5.floor(p5.random(start, numOfSteps + 1))
-      const angle = 360 / radiantLinesState.numberOfSpokes
-
-      p5.push()
-      p5.translate(p5.height / 2, p5.height / 2)
-      p5.stroke(randomColor())
-      p5.strokeWeight(radiantLinesState.lineThickness)
-      p5.rotate(extraRotation)
-
-      for (let i = 0; i < radiantLinesState.numberOfSpokes; i++) {
-        p5.line(start * step, 0, stop * step, 0)
-        p5.rotate(angle)
-      }
-      p5.pop()
-    }
-
     const mainCircles = () => {
       const numberOfCircles = mainCirclesState.numberOfCircles
       const angle = 360 / numberOfCircles
@@ -151,7 +124,7 @@ function App() {
 
       p5.push()
       p5.translate(p5.width / 2, p5.height / 2)
-      p5.rotate(extraRotation)
+      p5.rotate(EXTRA_ROTATION)
       for (let i = 0; i < numberOfCircles; i++) {
         p5.ellipse(position, 0, sizeOfShape, sizeOfShape)
         p5.rotate(angle)
@@ -199,16 +172,18 @@ function App() {
       const numberOfShapes = radiantDotsState.numberOfSpokes
       const angle = 360 / numberOfShapes
       const sizeOfShape = 6
-      const singleStep = CRYSTAL_SIZE / 2 / STEPS_OUT
-      const centerOffset = singleStep
+      const singleStep = RADIUS / STEPS_OUT
+      const start = radiantDotsState.range[0] * singleStep
+      const stop = radiantDotsState.range[1] * singleStep
 
       p5.fill(randomColor())
       p5.noStroke()
       p5.push()
       p5.translate(p5.width / 2, p5.height / 2)
-      p5.rotate(extraRotation)
+      p5.rotate(EXTRA_ROTATION)
       for (let i = 0; i <= numberOfShapes; i++) {
-        for (let x = centerOffset; x <= CRYSTAL_SIZE / 2; x += singleStep) {
+        for (let x = start; x <= stop; x += singleStep) {
+          console.log(start, stop)
           p5.rect(x, 0, sizeOfShape, sizeOfShape)
         }
         p5.rotate(angle)
@@ -216,14 +191,33 @@ function App() {
       p5.pop()
     }
 
-    const ringOfShapes = () => {
+    const radiantLines = () => {
+      const numOfSteps = STEPS_OUT
+      const step = RADIUS / numOfSteps
+      const start = radiantLinesState.range[0] // p5.floor(p5.random(0, numOfSteps))
+      const stop = radiantLinesState.range[1] // p5.floor(p5.random(start, numOfSteps + 1))
+      const angle = 360 / radiantLinesState.numberOfSpokes
+
+      p5.push()
+      p5.translate(p5.height / 2, p5.height / 2)
+      p5.stroke(randomColor())
+      p5.strokeWeight(radiantLinesState.lineThickness)
+      p5.rotate(EXTRA_ROTATION)
+
+      for (let i = 0; i < radiantLinesState.numberOfSpokes; i++) {
+        p5.line(start * step, 0, stop * step, 0)
+        p5.rotate(angle)
+      }
+      p5.pop()
+    }
+
+    const ringOfShapes = (variant) => {
       const steps = p5.floor(p5.random(1, STEPS_OUT))
       const layerColor = randomColor()
       const fillColor = coinFlip() ? layerColor : p5.color(0, 1)
       const weight = ringOfCirlcesState.lineThickness
       const singleStep = CRYSTAL_SIZE / 2 / STEPS_OUT
       const numberOfShapes = ringOfCirlcesState.numberOfCircles
-      const randomShape = p5.random(1)
       const center = steps * singleStep
       const direction = coinFlip()
       const angle = 360 / numberOfShapes
@@ -244,13 +238,15 @@ function App() {
       p5.push()
       p5.translate(p5.width / 2, p5.height / 2)
       for (let i = 0; i < numberOfShapes; i++) {
-        if (randomShape < 0.33) {
-          p5.ellipse(0, center, radius, radius)
-        } else if (randomShape >= 0.33 && randomShape < 0.66) {
-          p5.rect(0, center, radius, radius)
-        } else if (randomShape >= 0.66) {
-          p5.ellipse(0, center, radius, radius)
-          myTriangle(center, radius, direction)
+        switch (variant) {
+          case "circle":
+            p5.ellipse(0, center, radius, radius)
+            break
+          case "triangle":
+            myTriangle(center, radius, direction)
+            break
+          default:
+            break
         }
         p5.rotate(angle)
       }
@@ -258,24 +254,29 @@ function App() {
     }
 
     const ringOfCircles = () => {
-      const steps = p5.floor(p5.random(1, STEPS_OUT))
+      const step = ringOfCirlcesState.step
       const layerColor = randomColor()
-      const fillColor = coinFlip() ? layerColor : p5.color(0, 1)
+      const fillColor = false ? layerColor : p5.color(0, 1) // create toggle for this state
       const weight = ringOfCirlcesState.lineThickness
       const singleStep = CRYSTAL_SIZE / 2 / STEPS_OUT
       const numberOfShapes = ringOfCirlcesState.numberOfCircles
-      const center = steps * singleStep
+      const center = step * singleStep
       const angle = 360 / numberOfShapes
+      // let radius
+      const radius = (ringOfCirlcesState.diameter * singleStep) / 8
+      console.log(ringOfCirlcesState.diameter)
 
-      let radius
-
-      if (steps < STEPS_OUT / 2) {
-        radius = p5.floor(p5.random(1, steps)) * singleStep
-      } else if (steps > STEPS_OUT / 2) {
-        radius = p5.floor(p5.random(1, STEPS_OUT - steps)) * singleStep
-      } else {
-        radius = p5.floor(p5.random(1, STEPS_OUT / 2 + 1)) * singleStep
-      }
+      // if (step < STEPS_OUT / 2) {
+      //   const randomNum = p5.floor(p5.random(1, step))
+      //   radius = randomNum * singleStep
+      //   console.log("first", radius, randomNum, singleStep)
+      // } else if (step > STEPS_OUT / 2) {
+      //   radius = p5.floor(p5.random(1, STEPS_OUT - step)) * singleStep
+      //   console.log("second", radius)
+      // } else {
+      //   radius = p5.floor(p5.random(1, STEPS_OUT / 2 + 1)) * singleStep
+      //   console.log("third", radius)
+      // }
 
       p5.stroke(layerColor)
       p5.fill(fillColor)
@@ -313,8 +314,8 @@ function App() {
             {
               name: lineThickness,
               key: LINE_THICKNESS,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 1,
+              sliderStop: 15,
             },
           ]
         )}
@@ -328,14 +329,14 @@ function App() {
             {
               name: numberOfSides,
               key: NUMBER_OF_SIDES,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 3,
+              sliderStop: 13,
             },
             {
               name: lineThickness,
               key: LINE_THICKNESS,
-              rangeStart: 3,
-              rangeStop: 15,
+              sliderStart: 1,
+              sliderStop: 15,
             },
           ]
         )}
@@ -349,14 +350,14 @@ function App() {
             {
               name: numberOfCircles,
               key: NUMBER_OF_CIRCLES,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 3,
+              sliderStop: 13,
             },
             {
               name: lineThickness,
               key: LINE_THICKNESS,
-              rangeStart: 3,
-              rangeStop: 15,
+              sliderStart: 1,
+              sliderStop: 15,
             },
           ]
         )}
@@ -370,14 +371,20 @@ function App() {
             {
               name: numberOfSpokes,
               key: NUMBER_OF_SPOKES,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 3,
+              sliderStop: 13,
             },
             {
               name: lineThickness,
               key: LINE_THICKNESS,
-              rangeStart: 3,
-              rangeStop: 15,
+              sliderStart: 1,
+              sliderStop: 15,
+            },
+            {
+              name: "Start and Stop",
+              key: RANGE,
+              sliderStart: 0,
+              sliderStop: 8,
             },
           ]
         )}
@@ -391,14 +398,26 @@ function App() {
             {
               name: numberOfCircles,
               key: NUMBER_OF_CIRCLES,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 3,
+              sliderStop: 13,
+            },
+            {
+              name: diameter,
+              key: DIAMETER,
+              sliderStart: 1,
+              sliderStop: 80,
             },
             {
               name: lineThickness,
               key: LINE_THICKNESS,
-              rangeStart: 3,
-              rangeStop: 15,
+              sliderStart: 1,
+              sliderStop: 15,
+            },
+            {
+              name: step,
+              key: STEP,
+              sliderStart: 1,
+              sliderStop: 7,
             },
           ]
         )}
@@ -412,28 +431,25 @@ function App() {
             {
               name: numberOfSpokes,
               key: NUMBER_OF_SPOKES,
-              rangeStart: 3,
-              rangeStop: 13,
+              sliderStart: 3,
+              sliderStop: 13,
             },
             // {
             //   name: lineThickness,
             //   key: LINE_THICKNESS,
-            //   rangeStart: 3,
-            //   rangeStop: 15,
+            //   sliderStart: 3,
+            //   sliderStop: 15,
             // },
+            {
+              name: "Start and Stop",
+              key: RANGE,
+              sliderStart: 0,
+              sliderStop: 8,
+            },
           ]
         )}
-        {/* <FormControlLabel
-          control={
-            <Switch
-              checked={showRingOfCircles}
-              onChange={handleRingOfCirclesToggle}
-            />
-          }
-          label="Ring of Circles"
-        /> */}
       </FormGroup>
-      <ReactP5Wrapper sketch={Canvas} numOfLines={numOfLines} />
+      <ReactP5Wrapper sketch={Canvas} />
     </div>
   )
 }
