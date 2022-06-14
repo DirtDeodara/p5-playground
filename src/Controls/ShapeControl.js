@@ -4,7 +4,7 @@ import constants from "../utils/constants"
 import { createSliderMarks } from "../helpers"
 const { SHOULD_SHOW } = constants
 
-const ShapeControl = ({ name, state, setter }, subControls) => {
+const ShapeControl = ({ name, state, setter, subControls }) => {
   const { handleStateChange } = useAdjustShape()
 
   return (
@@ -28,10 +28,11 @@ const ShapeControl = ({ name, state, setter }, subControls) => {
               <Typography>{name}</Typography>
               <Slider
                 defaultValue={state[key]}
-                //   getAriaValueText={valuetext}
+                //   getAriaValueText={valuetext} // do I need this?
                 aria-labelledby="discrete-slider"
                 step={1}
-                marks={createSliderMarks(sliderStart, sliderStop)}
+                valueLabelDisplay="auto"
+                // marks={createSliderMarks(sliderStart, sliderStop)}
                 min={sliderStart}
                 max={sliderStop}
                 value={state[key]}

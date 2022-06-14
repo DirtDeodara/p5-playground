@@ -1,11 +1,24 @@
 import { useState } from "react"
 import constants from "../utils/constants"
 
+// interface initialState {
+//   shouldShow: boolean 
+//   lineThickness?: number
+//   numberOfSides?: number
+//   numberOfCircles?: number
+//   numberOfShapes?: number
+//   numberOfSpokes?: number
+//   step?: number
+//   diameter?: number
+//   range?: [number]
+// }
+
 const {
   SHOULD_SHOW,
   LINE_THICKNESS,
   NUMBER_OF_SIDES,
   NUMBER_OF_CIRCLES,
+  NUMBER_OF_SHAPES,
   NUMBER_OF_SPOKES,
   STEP,
   DIAMETER,
@@ -13,44 +26,58 @@ const {
 } = constants
 
 const useAdjustShape = () => {
-  const [numOfLines, setNumOfLines] = useState(3) // deprecated
-
   const [outerCircleState, setOuterCircleState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
+    shouldShow: false,
+    lineThickness: 1,
   })
 
   const [outerPolygonState, setOuterPolygonState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
-    [NUMBER_OF_SIDES]: 3,
+    shouldShow: false,
+    lineThickness: 1,
+    numberOfSides: 3,
   })
 
   const [mainCirclesState, setMainCirclesState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
-    [NUMBER_OF_CIRCLES]: 3,
+    shouldShow: false,
+    lineThickness: 1,
+    numberOfCircles: 3,
   })
 
   const [radiantDotsState, setRadiantDotsState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
-    [NUMBER_OF_SPOKES]: 3,
+    shouldShow: false,
+    lineThickness: 1,
+    numberOfSpokes: 3,
     [RANGE]: [0, 1],
   })
 
-  const [ringOfCirlcesState, setRingOfCirclesState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
-    [NUMBER_OF_CIRCLES]: 3,
+  const [ringOfCirclesState, setRingOfCirclesState] = useState({
+    shouldShow: false,
+    lineThickness: 1,
+    [NUMBER_OF_SHAPES]: 3,
     [STEP]: 1,
-    [DIAMETER]: 1
+    [DIAMETER]: 1,
+  })
+
+  const [ringOfTrianglesState, setRingOfTrianglesState] = useState({
+    shouldShow: false,
+    lineThickness: 1,
+    [NUMBER_OF_SHAPES]: 3,
+    [STEP]: 1,
+    [DIAMETER]: 1,
+  })
+
+  const [ringOfSqauresState, setRingOfSquaresState] = useState({
+    shouldShow: false,
+    lineThickness: 1,
+    [NUMBER_OF_SHAPES]: 3,
+    [STEP]: 1,
+    [DIAMETER]: 1,
   })
 
   const [radiantLinesState, setRadiantLinesState] = useState({
-    [SHOULD_SHOW]: false,
-    [LINE_THICKNESS]: 1,
-    [NUMBER_OF_SPOKES]: 3,
+    shouldShow: false,
+    lineThickness: 1,
+    numberOfSpokes: 3,
     [RANGE]: [0, 1],
   })
 
@@ -63,7 +90,6 @@ const useAdjustShape = () => {
   }
 
   return {
-    numOfLines,
     outerCircleState,
     setOuterCircleState,
     outerPolygonState,
@@ -72,8 +98,12 @@ const useAdjustShape = () => {
     setRadiantDotsState,
     radiantLinesState,
     setRadiantLinesState,
-    ringOfCirlcesState,
+    ringOfCirclesState,
     setRingOfCirclesState,
+    ringOfTrianglesState,
+    setRingOfTrianglesState,
+    ringOfSqauresState,
+    setRingOfSquaresState,
     mainCirclesState,
     setMainCirclesState,
     handleStateChange,
