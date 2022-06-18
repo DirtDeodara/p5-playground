@@ -1,57 +1,22 @@
 import "./App.css" // TODO think about this
-import React from "react"
+import React, { useReducer } from "react"
 import { ReactP5Wrapper, P5Instance } from "react-p5-wrapper"
-import { FormGroup } from "@mui/material"
-import ShapeControl from "./Controls/ShapeControl"
-import constants from "./utils/constants"
-import useAdjustShape from "./hooks/useAdjustShape"
+import { Button, FormGroup } from "@mui/material"
+import ShapeControl from "./controls/ShapeControl"
+import addNewControl from "./controls/addNewControl"
+import { appStateReducer, initialState } from "./appState"
 import {
-  OuterCircle,
-  OuterPolygon,
-  MainCircles,
+  ConcentricCircles,
+  ConcentricPolygons,
+  RingOfCircles,
   RadiantLines,
   RadiantDots,
-  RingOfShapes,
+  RingOfPolygons,
 } from "./Shapes"
-
-const {
-  LINE_THICKNESS,
-  lineThickness,
-  NUMBER_OF_SIDES,
-  numberOfSides,
-  NUMBER_OF_CIRCLES,
-  numberOfCircles,
-  NUMBER_OF_SHAPES,
-  numberOfShapes,
-  NUMBER_OF_SPOKES,
-  numberOfSpokes,
-  STEP,
-  step,
-  DIAMETER,
-  diameter,
-  RANGE,
-} = constants
+import defaultControlSettings from "./controls/controlSettings"
 
 const App = () => {
-  const {
-    outerCircleState,
-    setOuterCircleState,
-    outerPolygonState,
-    setOuterPolygonState,
-    radiantDotsState,
-    setRadiantDotsState,
-    radiantLinesState,
-    setRadiantLinesState,
-    ringOfCirclesState,
-    setRingOfCirclesState,
-    ringOfTrianglesState,
-    setRingOfTrianglesState,
-    ringOfSqauresState,
-    setRingOfSquaresState,
-    mainCirclesState,
-    setMainCirclesState,
-  } = useAdjustShape()
-
+  const [appState, appStateDispatch] = useReducer(appStateReducer, initialState)
 
   const Canvas = (p5) => {
     p5.setup = () => {
@@ -68,225 +33,57 @@ const App = () => {
 
     // Where we declare which shapes to render
     p5.draw = () => {
-      outerCircleState.shouldShow
-        ? OuterCircle(p5, outerCircleState)
-        : (() => {})()
-      outerPolygonState.shouldShow
-        ? OuterPolygon(p5, outerPolygonState)
-        : (() => {})()
-      mainCirclesState.shouldShow
-        ? MainCircles(p5, mainCirclesState)
-        : (() => {})()
-      radiantLinesState.shouldShow
-        ? RadiantLines(p5, radiantLinesState)
-        : (() => {})()
-      radiantDotsState.shouldShow
-        ? RadiantDots(p5, radiantDotsState)
-        : (() => {})()
-      ringOfTrianglesState.shouldShow
-        ? RingOfShapes(p5, ringOfTrianglesState, "triangle")
-        : (() => {})()
-      ringOfCirclesState.shouldShow
-        ? RingOfShapes(p5, ringOfCirclesState, "circle")
-        : (() => {})()
-      ringOfSqauresState.shouldShow
-        ? RingOfShapes(p5, ringOfSqauresState, "sqaure")
-        : (() => {})()
+      Object.values(appState).forEach((stateObj, i) => {
+        if (stateObj.shouldShow) {
+          switch (stateObj.key) {
+            case "concentricCircles":
+              return ConcentricCircles(p5, stateObj)
+            case "concentricPolygons":
+              return ConcentricPolygons(p5, stateObj)
+            case "ringOfCircles":
+              return RingOfCircles(p5, stateObj)
+            case "radiantLines":
+              return RadiantLines(p5, stateObj)
+            case "radiantDots":
+              return RadiantDots(p5, stateObj)
+            case "ringOfPolygons":
+              return RingOfPolygons(p5, stateObj)
+            default:
+              break
+          }
+        }
+      })
     }
   }
+  console.log(appState) // TODO remove me
 
   return (
     <div className="main-container">
-      <FormGroup>
-        {ShapeControl({
-          name: "Outer Circle",
-          state: outerCircleState,
-          setter: setOuterCircleState,
-          subControls: [
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 15,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Main Polygon",
-          state: outerPolygonState,
-          setter: setOuterPolygonState,
-          subControls: [
-            {
-              name: numberOfSides,
-              key: NUMBER_OF_SIDES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 15,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Main Circles",
-          state: mainCirclesState,
-          setter: setMainCirclesState,
-          subControls: [
-            {
-              name: numberOfCircles,
-              key: NUMBER_OF_CIRCLES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 15,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Radiant Lines",
-          state: radiantLinesState,
-          setter: setRadiantLinesState,
-          subControls: [
-            {
-              name: numberOfSpokes,
-              key: NUMBER_OF_SPOKES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 15,
-            },
-            {
-              name: "Start and Stop",
-              key: RANGE,
-              sliderStart: 0,
-              sliderStop: 8,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Ring of Circles",
-          state: ringOfCirclesState,
-          setter: setRingOfCirclesState,
-          subControls: [
-            {
-              name: numberOfShapes,
-              key: NUMBER_OF_SHAPES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: diameter,
-              key: DIAMETER,
-              sliderStart: 1,
-              sliderStop: 80,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 30,
-            },
-            {
-              name: step,
-              key: STEP,
-              sliderStart: 1,
-              sliderStop: 7,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Ring of Triangles",
-          state: ringOfTrianglesState,
-          setter: setRingOfTrianglesState,
-          subControls: [
-            {
-              name: numberOfShapes,
-              key: NUMBER_OF_SHAPES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: diameter,
-              key: DIAMETER,
-              sliderStart: 1,
-              sliderStop: 80,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 30,
-            },
-            {
-              name: step,
-              key: STEP,
-              sliderStart: 1,
-              sliderStop: 7,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Ring of Squares",
-          state: ringOfSqauresState,
-          setter: setRingOfSquaresState,
-          subControls: [
-            {
-              name: numberOfShapes,
-              key: NUMBER_OF_SHAPES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: diameter,
-              key: DIAMETER,
-              sliderStart: 1,
-              sliderStop: 80,
-            },
-            {
-              name: lineThickness,
-              key: LINE_THICKNESS,
-              sliderStart: 1,
-              sliderStop: 30,
-            },
-            {
-              name: step,
-              key: STEP,
-              sliderStart: 1,
-              sliderStop: 7,
-            },
-          ],
-        })}
-        {ShapeControl({
-          name: "Radiant Dots",
-          state: radiantDotsState,
-          setter: setRadiantDotsState,
-          subControls: [
-            {
-              name: numberOfSpokes,
-              key: NUMBER_OF_SPOKES,
-              sliderStart: 3,
-              sliderStop: 13,
-            },
-            {
-              name: "Start and Stop",
-              key: RANGE,
-              sliderStart: 0,
-              sliderStop: 8,
-            },
-          ],
-        })}
-      </FormGroup>
+      <div className="form-container">
+        <div className="add-button-group">
+          {Object.values(defaultControlSettings).map((setting, i) => {
+            return (
+              <Button
+                key={i}
+                variant="outlined"
+                className="add-button"
+                onClick={() =>
+                  addNewControl(setting.key, appState, appStateDispatch)
+                }
+              >
+                Add {setting.name}
+              </Button>
+            )
+          })}
+        </div>
+        <FormGroup>
+          {Object.values(appState).map((stateObj, i) => {
+            const { key } = stateObj
+            const stateObjectName = `${key}${i + 1}`
+            return ShapeControl(stateObjectName, stateObj, appStateDispatch)
+          })}
+        </FormGroup>
+      </div>
       <ReactP5Wrapper sketch={Canvas} />
     </div>
   )

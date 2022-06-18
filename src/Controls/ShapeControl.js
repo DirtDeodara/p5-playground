@@ -1,28 +1,43 @@
+import React from "react"
 import { Slider, Typography, FormControlLabel, Switch } from "@mui/material"
-import useAdjustShape from "../hooks/useAdjustShape"
 import constants from "../utils/constants"
-import { createSliderMarks } from "../helpers"
 const { SHOULD_SHOW } = constants
 
-const ShapeControl = ({ name, state, setter, subControls }) => {
-  const { handleStateChange } = useAdjustShape()
+const handleShapeStateChange = (e, stateObjectName, key, dispatch) => {
+  const value = key === SHOULD_SHOW ? e.target.checked : e.target.value
+  dispatch({ type: "updateState", payload: { key, value, stateObjectName } })
+}
 
+/**
+ * examples
+ * @param {"concentricCircles"} name
+ * @returns
+ */
+const ShapeControl = (stateObjectName, state, dispatch) => {
+  const { name, subControls } = state
   return (
-    <div className="formItem">
+    <div className="formItem" key={stateObjectName}>
       <div>
         <FormControlLabel
           control={
             <Switch
               checked={state.shouldShow}
-              onChange={(e) => handleStateChange(e, SHOULD_SHOW, setter)}
+              onChange={(e) =>
+                handleShapeStateChange(
+                  e,
+                  stateObjectName,
+                  SHOULD_SHOW,
+                  dispatch
+                )
+              }
             />
           }
           label={name}
         />
       </div>
       {state.shouldShow &&
-        subControls.map((control, i) => {
-          const { name, key, sliderStart, sliderStop } = control
+        subControls.map((subControl, i) => {
+          const { name, key, sliderStart, sliderStop } = subControl
           return (
             <div key={i}>
               <Typography>{name}</Typography>
@@ -36,7 +51,9 @@ const ShapeControl = ({ name, state, setter, subControls }) => {
                 min={sliderStart}
                 max={sliderStop}
                 value={state[key]}
-                onChange={(e) => handleStateChange(e, key, setter)}
+                onChange={(e) =>
+                  handleShapeStateChange(e, stateObjectName, key, dispatch)
+                }
               />
             </div>
           )

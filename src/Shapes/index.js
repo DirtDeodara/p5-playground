@@ -1,17 +1,16 @@
-import OuterCircle from "./OuterCircle"
-import OuterPolygon from "./OuterPolygon"
-import MainCircles from "./MainCircles"
+import ConcentricCircles from "./ConcentricCircles"
+import ConcentricPolygons from "./ConcentricPolygons"
+import RingOfCircles from "./RingOfCircles"
 import RadiantLines from "./RadiantLines"
 import RadiantDots from "./RadiantDots"
-import RingOfShapes from "./RingOfShapes"
-import Triangle from "./Triangle"
-
+import RingOfPolygons from "./RingOfPolygons"
+import Polygon from "./Polygon"
 export {
-  OuterCircle,
-  OuterPolygon,
-  MainCircles,
+  ConcentricCircles,
+  ConcentricPolygons,
+  RingOfCircles,
   RadiantLines,
   RadiantDots,
-  RingOfShapes,
-  Triangle,
+  RingOfPolygons,
+  Polygon,
 }

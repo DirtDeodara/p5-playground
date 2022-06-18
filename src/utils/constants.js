@@ -1,7 +1,7 @@
 const constants = {
-  SHOULD_SHOW: "shouldShow",
+  SHOULD_SHOW: "shouldShow", 
   LINE_THICKNESS: "lineThickness",
-  lineThickness: "Line Thickness",
+  lineThickness: "Line Thickness", // TODO move these strings into a copy file
   NUMBER_OF_SIDES: "numberOfSides",
   numberOfSides: "Number of Sides",
   NUMBER_OF_CIRCLES: "numberOfCircles",
@@ -15,7 +15,7 @@ const constants = {
   DIAMETER: "diameter",
   diameter: "Diameter",
   RANGE: "range",
-  CRYSTAL_SIZE: 800,
+  CRYSTAL_SIZE: 800, 
   EXTRA_ROTATION: 270,
   RADIUS: 800 / 2,
   STEPS_OUT: 8,
