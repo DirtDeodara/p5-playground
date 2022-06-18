@@ -6,9 +6,8 @@ const RingOfCircles = (p5, state) => {
   const angle = 360 / numberOfCircles
   const sizeOfShape = state.diameter
   const step = state.step * SINGLE_STEP
-  console.log(state.step)
 
-  p5.stroke(p5.color(255, 52, 154)) // TODO use state for this value
+  p5.stroke(p5.color(state.strokeColor)) // TODO use state for this value
   p5.strokeWeight(state.lineThickness)
   p5.noFill()
 

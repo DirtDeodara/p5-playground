@@ -18,6 +18,7 @@ const {
 } = constants
 
 const lineThicknessSettings = {
+  type: "slider",
   name: lineThickness,
   key: LINE_THICKNESS,
   sliderStart: 1,
@@ -25,6 +26,7 @@ const lineThicknessSettings = {
 }
 
 const startStopSettings = {
+  type: "slider",
   name: "Start and Stop", // TODO add to copy
   key: RANGE,
   sliderStart: 0,
@@ -32,6 +34,7 @@ const startStopSettings = {
 }
 
 const numberOfSidesSettings = {
+  type: "slider",
   name: numberOfSides,
   key: NUMBER_OF_SIDES,
   sliderStart: 3,
@@ -39,6 +42,7 @@ const numberOfSidesSettings = {
 }
 
 const diameterSettings = {
+  type: "slider",
   name: diameter,
   key: DIAMETER,
   sliderStart: 1,
@@ -46,6 +50,7 @@ const diameterSettings = {
 }
 
 const numberOfCirclesSettings = {
+  type: "slider",
   name: numberOfCircles,
   key: NUMBER_OF_CIRCLES,
   sliderStart: 3,
@@ -53,6 +58,7 @@ const numberOfCirclesSettings = {
 }
 
 const numberOfShapesSettings = {
+  type: "slider",
   // TODO consider turning all of these numberOf...Controls into a single control type
   name: numberOfShapes,
   key: NUMBER_OF_SHAPES,
@@ -61,6 +67,7 @@ const numberOfShapesSettings = {
 }
 
 const numberOfSpokesSettings = {
+  type: "slider",
   name: numberOfSpokes,
   key: NUMBER_OF_SPOKES,
   sliderStart: 3,
@@ -68,10 +75,17 @@ const numberOfSpokesSettings = {
 }
 
 const stepOfOriginSettings = {
+  type: "slider",
   name: "Step of Origin", // TODO add to copy
   key: STEP,
   sliderStart: 0,
   sliderStop: 8,
+}
+
+const colorPickerSettings = {
+  type: "colorPicker",
+  name: "Shape Color", // TODO add to copy
+  key: "strokeColor",
 }
 
 const defaultControlSettings = {
@@ -81,7 +95,12 @@ const defaultControlSettings = {
     shouldShow: true,
     lineThickness: 1, // TODO turn all numbers into consts
     range: [0, 1],
-    subControls: [lineThicknessSettings, startStopSettings],
+    strokeColor: "#000",
+    subControls: [
+      lineThicknessSettings,
+      startStopSettings,
+      colorPickerSettings,
+    ],
   },
   concentricPolygons: {
     name: "Concentric Polygon",
@@ -89,11 +108,13 @@ const defaultControlSettings = {
     shouldShow: true,
     numberOfSides: 3,
     lineThickness: 1,
-    range: [0, 1],
+    range: [0, 2],
+    strokeColor: "#000",
     subControls: [
       numberOfSidesSettings,
       lineThicknessSettings,
       startStopSettings,
+      colorPickerSettings,
     ],
   },
   ringOfCircles: {
@@ -104,11 +125,13 @@ const defaultControlSettings = {
     lineThickness: 1,
     diameter: 200,
     step: 2,
+    strokeColor: "#000",
     subControls: [
       numberOfCirclesSettings,
       lineThicknessSettings,
       diameterSettings,
       stepOfOriginSettings,
+      colorPickerSettings,
     ],
   },
   ringOfPolygons: {
@@ -118,14 +141,16 @@ const defaultControlSettings = {
     numberOfShapes: 3,
     numberOfSides: 6,
     lineThickness: 1,
-    diameter: 8,
+    diameter: 20,
     step: 1,
+    strokeColor: "#000",
     subControls: [
       numberOfSidesSettings,
       numberOfShapesSettings,
       diameterSettings,
       lineThicknessSettings,
       stepOfOriginSettings,
+      colorPickerSettings,
     ],
   },
   radiantLines: {
@@ -135,10 +160,12 @@ const defaultControlSettings = {
     numberOfSpokes: 3,
     lineThickness: 1,
     range: [0, 1],
+    strokeColor: "#000",
     subControls: [
       numberOfSpokesSettings,
       lineThicknessSettings,
       startStopSettings,
+      colorPickerSettings,
     ],
   },
   radiantDots: {
@@ -148,8 +175,18 @@ const defaultControlSettings = {
     numberOfSpokes: 3,
     lineThickness: 1,
     range: [0, 1],
-    subControls: [numberOfSpokesSettings, startStopSettings],
+    strokeColor: "#000",
+    subControls: [
+      numberOfSpokesSettings,
+      startStopSettings,
+      colorPickerSettings,
+    ],
   },
 }
 
-export default defaultControlSettings
+export {
+  defaultControlSettings,
+  lineThicknessSettings,
+  startStopSettings,
+  colorPickerSettings,
+}

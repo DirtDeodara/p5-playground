@@ -1,9 +1,8 @@
-import constants from "./utils/constants"
-const {
-  LINE_THICKNESS,
-  lineThickness,
-  RANGE,
-} = constants
+import {
+  lineThicknessSettings,
+  startStopSettings,
+  colorPickerSettings,
+} from "./controls/controlSettings"
 
 const initialState = {
   concentricCircles1: {
@@ -12,19 +11,11 @@ const initialState = {
     shouldShow: true,
     lineThickness: 1,
     range: [0, 2],
+    strokeColor: "#000",
     subControls: [
-      {
-        name: lineThickness,
-        key: LINE_THICKNESS,
-        sliderStart: 1,
-        sliderStop: 20,
-      },
-      {
-        name: "Start and Stop",
-        key: RANGE,
-        sliderStart: 0,
-        sliderStop: 8,
-      },
+      lineThicknessSettings,
+      startStopSettings,
+      colorPickerSettings,
     ],
   },
 }
@@ -35,7 +26,6 @@ const initialState = {
  * handleStateChange function that is then used in the onChange function
  * of each input.
  */
-
 
 const appStateReducer = (state, action) => {
   const { type, payload } = action

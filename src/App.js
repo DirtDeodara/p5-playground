@@ -5,6 +5,7 @@ import { Button, FormGroup } from "@mui/material"
 import ShapeControl from "./controls/ShapeControl"
 import addNewControl from "./controls/addNewControl"
 import { appStateReducer, initialState } from "./appState"
+import { defaultControlSettings } from "./controls/controlSettings"
 import {
   ConcentricCircles,
   ConcentricPolygons,
@@ -13,18 +14,12 @@ import {
   RadiantDots,
   RingOfPolygons,
 } from "./Shapes"
-import defaultControlSettings from "./controls/controlSettings"
 
 const App = () => {
   const [appState, appStateDispatch] = useReducer(appStateReducer, initialState)
 
   const Canvas = (p5) => {
     p5.setup = () => {
-      const PALETTE = [
-        p5.color(255, 52, 154), //pink
-        p5.color(4, 0, 152), //blue
-      ]
-
       p5.noLoop()
       p5.angleMode(p5.DEGREES)
       p5.rectMode(p5.CENTER)
