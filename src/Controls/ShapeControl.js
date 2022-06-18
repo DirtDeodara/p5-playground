@@ -1,6 +1,14 @@
 import React from "react"
-import { CirclePicker, SwatchesPicker } from "react-color"
-import { Slider, Typography, FormControlLabel, Switch } from "@mui/material"
+import { SwatchesPicker } from "react-color"
+import {
+  Slider,
+  Typography,
+  FormControlLabel,
+  Switch,
+  IconButton,
+} from "@mui/material"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import ExpandLessIcon from "@mui/icons-material/ExpandLess"
 import constants from "../utils/constants"
 
 const { SHOULD_SHOW } = constants
@@ -18,7 +26,6 @@ const handleShapeStateChange = (e, stateObjectName, key, dispatch) => {
       value = e.target.value
       break
   }
-  // const value = key === SHOULD_SHOW ? e.target.checked : e.target.value
   dispatch({ type: "updateState", payload: { key, value, stateObjectName } })
 }
 
@@ -26,7 +33,7 @@ const ShapeControl = (stateObjectName, state, dispatch) => {
   const { name, strokeColor, subControls } = state
   return (
     <div className="formItem" key={stateObjectName}>
-      <div>
+      <div className="topBar">
         <FormControlLabel
           control={
             <Switch
@@ -43,8 +50,24 @@ const ShapeControl = (stateObjectName, state, dispatch) => {
           }
           label={name}
         />
+        <IconButton
+          onClick={(e) => {
+            console.log(e)
+            dispatch({
+              type: "updateState",
+              payload: {
+                key: "subControlsHidden",
+                value: !state.subControlsHidden,
+                stateObjectName,
+              },
+            })
+          }}
+        >
+          {state.subControlsHidden ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        </IconButton>
       </div>
       {state.shouldShow &&
+        !state.subControlsHidden &&
         subControls.map((subControl, i) => {
           let { type, name, key } = subControl
           switch (type) {

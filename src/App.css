@@ -1,4 +1,4 @@
-.main-container {
+.main-container { /* TODO use one casing convention or the other! */
   display: flex;
 }
 
@@ -13,6 +13,10 @@
   border: 4px solid black;
   padding: 0 20px;
   margin: 2px;
+}
+.topBar {
+  display: flex;
+  justify-content: space-between;
 }
 
 .add-button {
