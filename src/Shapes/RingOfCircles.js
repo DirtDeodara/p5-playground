@@ -13,7 +13,7 @@ const RingOfCircles = (p5, state) => {
 
   p5.push()
   p5.translate(p5.width / 2, p5.height / 2)
-  p5.rotate(EXTRA_ROTATION)
+  p5.rotate(state.rotation + EXTRA_ROTATION)
   for (let i = 0; i < numberOfCircles; i++) {
     p5.ellipse(step, 0, sizeOfShape, sizeOfShape)
     // p5.ellipse(step, 0, 3, 3)

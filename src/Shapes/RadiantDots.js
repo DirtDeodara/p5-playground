@@ -12,7 +12,7 @@ const RadiantDots = (p5, state) => {
   p5.noStroke()
   p5.push()
   p5.translate(p5.width / 2, p5.height / 2)
-  p5.rotate(EXTRA_ROTATION)
+  p5.rotate(state.rotation + EXTRA_ROTATION)
   for (let i = 0; i <= numberOfSpokes; i++) {
     for (let x = start; x <= stop; x += SINGLE_STEP) {
       p5.rect(x, 0, sizeOfShape, sizeOfShape)

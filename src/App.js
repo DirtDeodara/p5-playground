@@ -1,7 +1,8 @@
 import "./App.css" // TODO think about this
-import React, { useReducer } from "react"
+import React, { useReducer, useEffect } from "react"
 import { ReactP5Wrapper, P5Instance } from "react-p5-wrapper"
 import { Button, FormGroup } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add';
 import ShapeControl from "./controls/ShapeControl"
 import addNewControl from "./controls/addNewControl"
 import { appStateReducer, initialState } from "./appState"
@@ -16,7 +17,16 @@ import {
 } from "./Shapes"
 
 const App = () => {
-  const [appState, appStateDispatch] = useReducer(appStateReducer, initialState)
+  const initState = JSON.parse(localStorage.getItem("state"))
+    ? JSON.parse(localStorage.getItem("state"))
+    : initialState
+
+  const [appState, appStateDispatch] = useReducer(appStateReducer, initState)
+
+
+  useEffect(() => {
+    localStorage.setItem("state", JSON.stringify(appState))
+  }, [appState])
 
   const Canvas = (p5) => {
     p5.setup = () => {
@@ -50,7 +60,6 @@ const App = () => {
       })
     }
   }
-  console.log(appState) // TODO remove me
 
   return (
     <div className="main-container">
@@ -70,6 +79,18 @@ const App = () => {
               </Button>
             )
           })}
+          <Button
+            variant="outlined"
+            className="add-button"
+            onClick={() =>
+              appStateDispatch({
+                type: "reset",
+                payload: initialState,
+              })
+            }
+          >
+            RESET
+          </Button>
         </div>
         <FormGroup>
           {Object.values(appState).map((stateObj, i) => {

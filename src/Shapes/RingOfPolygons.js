@@ -16,7 +16,7 @@ const RingOfShapes = (p5, state) => {
 
   p5.push()
   p5.translate(p5.width / 2, p5.height / 2)
-  p5.rotate(EXTRA_ROTATION)
+  p5.rotate(state.rotation + EXTRA_ROTATION)
   for (let i = 0; i < numberOfShapes; i++) {
     Polygon(p5, step, 0, radius, state.numberOfSides)
     p5.rotate(angle)

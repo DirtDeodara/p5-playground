@@ -46,6 +46,8 @@ const appStateReducer = (state, action) => {
           [key]: value,
         },
       }
+    case "reset":
+      return initialState
     default:
       return state
   }

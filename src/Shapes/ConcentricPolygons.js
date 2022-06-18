@@ -13,7 +13,7 @@ const ConcentricPolygons = (p5, state) => {
 
   p5.push()
   p5.translate(p5.width / 2, p5.height / 2)
-  p5.rotate(EXTRA_ROTATION)
+  p5.rotate(state.rotation + EXTRA_ROTATION)
   for (let x = start; x <= stop; x += SINGLE_STEP) {
     Polygon(p5, 0, 0, RADIUS - x, state.numberOfSides)
   }

@@ -92,13 +92,14 @@ const ShapeControl = (stateObjectName, state, dispatch) => {
               )
             case "colorPicker":
               return (
-                <SwatchesPicker
-                  key={i}
-                  color={strokeColor}
-                  onChangeComplete={(e) => {
-                    handleShapeStateChange(e, stateObjectName, key, dispatch)
-                  }}
-                />
+                <div key={i} className="colorPicker">
+                  <SwatchesPicker
+                    color={strokeColor}
+                    onChangeComplete={(e) => {
+                      handleShapeStateChange(e, stateObjectName, key, dispatch)
+                    }}
+                  />
+                </div>
               )
             default:
               return null

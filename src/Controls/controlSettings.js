@@ -25,6 +25,14 @@ const lineThicknessSettings = {
   sliderStop: 20,
 }
 
+const rotationSettings = {
+  type: "slider",
+  name: "Rotation",
+  key: "rotation",
+  sliderStart: 0,
+  sliderStop: 60, // TODO assess if this is the right range limit
+}
+
 const startStopSettings = {
   type: "slider",
   name: "Start and Stop", // TODO add to copy
@@ -109,11 +117,13 @@ const defaultControlSettings = {
     shouldShow: true,
     subControlsHidden: false,
     numberOfSides: 3,
+    rotation: 0,
     lineThickness: 1,
     range: [0, 2],
     strokeColor: "#000",
     subControls: [
       numberOfSidesSettings,
+      rotationSettings,
       lineThicknessSettings,
       startStopSettings,
       colorPickerSettings,
@@ -125,12 +135,14 @@ const defaultControlSettings = {
     shouldShow: true,
     subControlsHidden: false,
     numberOfCircles: 3,
+    rotation: 0,
     lineThickness: 1,
     diameter: 200,
     step: 2,
     strokeColor: "#000",
     subControls: [
       numberOfCirclesSettings,
+      rotationSettings,
       lineThicknessSettings,
       diameterSettings,
       stepOfOriginSettings,
@@ -144,6 +156,7 @@ const defaultControlSettings = {
     subControlsHidden: false,
     numberOfShapes: 3,
     numberOfSides: 6,
+    rotation: 0,
     lineThickness: 1,
     diameter: 20,
     step: 1,
@@ -151,6 +164,7 @@ const defaultControlSettings = {
     subControls: [
       numberOfSidesSettings,
       numberOfShapesSettings,
+      rotationSettings,
       diameterSettings,
       lineThicknessSettings,
       stepOfOriginSettings,
@@ -163,11 +177,13 @@ const defaultControlSettings = {
     shouldShow: true,
     subControlsHidden: false,
     numberOfSpokes: 3,
+    rotation: 0,
     lineThickness: 1,
     range: [0, 1],
     strokeColor: "#000",
     subControls: [
       numberOfSpokesSettings,
+      rotationSettings,
       lineThicknessSettings,
       startStopSettings,
       colorPickerSettings,
@@ -179,11 +195,13 @@ const defaultControlSettings = {
     shouldShow: true,
     subControlsHidden: false,
     numberOfSpokes: 3,
+    rotation: 0,
     lineThickness: 1,
     range: [0, 1],
     strokeColor: "#000",
     subControls: [
       numberOfSpokesSettings,
+      rotationSettings,
       startStopSettings,
       colorPickerSettings,
     ],
