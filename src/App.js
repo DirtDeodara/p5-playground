@@ -2,11 +2,10 @@ import "./App.css" // TODO think about this
 import React, { useReducer, useEffect } from "react"
 import { ReactP5Wrapper, P5Instance } from "react-p5-wrapper"
 import { Button, FormGroup } from "@mui/material"
-import AddIcon from '@mui/icons-material/Add';
 import ShapeControl from "./controls/ShapeControl"
 import addNewControl from "./controls/addNewControl"
 import { appStateReducer, initialState } from "./appState"
-import { defaultControlSettings } from "./controls/controlSettings"
+import { defaultControlSettings } from "./controls/defaultControlSettings"
 import {
   ConcentricCircles,
   ConcentricPolygons,

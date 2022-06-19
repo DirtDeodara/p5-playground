@@ -7,7 +7,7 @@ const ConcentricPolygons = (p5, state) => {
   const start = state.range[0] * SINGLE_STEP
   const stop = state.range[1] * SINGLE_STEP
 
-  p5.stroke(p5.color(state.strokeColor)) // TODO use state for this value
+  p5.stroke(p5.color(state.strokeColor)) 
   p5.strokeWeight(state.lineThickness)
   p5.noFill()
 

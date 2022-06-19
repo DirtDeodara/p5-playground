@@ -10,7 +10,7 @@ const RadiantLines = (p5, state) => {
 
   p5.push()
   p5.translate(p5.height / 2, p5.height / 2)
-  p5.stroke(p5.color(state.strokeColor)) // TODO use state for this value
+  p5.stroke(p5.color(state.strokeColor))
   p5.strokeWeight(state.lineThickness)
   p5.rotate(state.rotation + EXTRA_ROTATION)
   for (let i = 0; i < state.numberOfSpokes; i++) {

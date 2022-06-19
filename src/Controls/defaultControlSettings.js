@@ -1,24 +1,51 @@
 import constants from "../utils/constants"
+import copy from "../utils/copy" // TODO consider adding an index file to export both copy and constants from
 
 const {
   LINE_THICKNESS,
-  lineThickness,
   NUMBER_OF_SIDES,
-  numberOfSides,
-  NUMBER_OF_CIRCLES,
-  numberOfCircles,
   NUMBER_OF_SHAPES,
-  numberOfShapes,
   NUMBER_OF_SPOKES,
-  numberOfSpokes,
+  STROKE_COLOR,
   STEP,
   DIAMETER,
-  diameter,
   RANGE,
+  SLIDER,
+  COLOR_PICKER,
+  ROTATION,
+  CONCENTRIC_CIRCLES,
+  CONCENTRIC_POLYGONS,
+  RING_OF_CIRCLES,
+  RING_OF_POLYGONS,
+  RADIANT_DOTS,
+  RADIANT_LINES,
+  DEFAULT_LINE_THICKNESS,
+  DEFAULT_NUMBER_OF_SIDES,
+  DEFAULT_ROTATION,
+  DEFAULT_NUMBER_OF_SPOKES,
+  DEFAULT_NUMBER_OF_SHAPES
 } = constants
 
+const {
+  lineThickness,
+  rotation,
+  startAndStop,
+  numberOfSides,
+  numberOfShapes,
+  numberOfSpokes,
+  diameter,
+  stepOfOrigin,
+  strokeColor,
+  concentricCircles,
+  concentricPolygons,
+  ringOfCircles,
+  ringOfPolygons,
+  radiantDots,
+  radiantLines,
+} = copy
+
 const lineThicknessSettings = {
-  type: "slider",
+  type: SLIDER,
   name: lineThickness,
   key: LINE_THICKNESS,
   sliderStart: 1,
@@ -26,23 +53,23 @@ const lineThicknessSettings = {
 }
 
 const rotationSettings = {
-  type: "slider",
-  name: "Rotation",
-  key: "rotation",
+  type: SLIDER,
+  name: rotation,
+  key: ROTATION,
   sliderStart: 0,
   sliderStop: 60, // TODO assess if this is the right range limit
 }
 
 const startStopSettings = {
-  type: "slider",
-  name: "Start and Stop", // TODO add to copy
+  type: SLIDER,
+  name: startAndStop,
   key: RANGE,
   sliderStart: 0,
   sliderStop: 8,
 }
 
 const numberOfSidesSettings = {
-  type: "slider",
+  type: SLIDER,
   name: numberOfSides,
   key: NUMBER_OF_SIDES,
   sliderStart: 3,
@@ -50,23 +77,15 @@ const numberOfSidesSettings = {
 }
 
 const diameterSettings = {
-  type: "slider",
+  type: SLIDER,
   name: diameter,
   key: DIAMETER,
   sliderStart: 1,
   sliderStop: 400,
 }
 
-const numberOfCirclesSettings = {
-  type: "slider",
-  name: numberOfCircles,
-  key: NUMBER_OF_CIRCLES,
-  sliderStart: 3,
-  sliderStop: 13,
-}
-
 const numberOfShapesSettings = {
-  type: "slider",
+  type: SLIDER,
   // TODO consider turning all of these numberOf...Controls into a single control type
   name: numberOfShapes,
   key: NUMBER_OF_SHAPES,
@@ -75,7 +94,7 @@ const numberOfShapesSettings = {
 }
 
 const numberOfSpokesSettings = {
-  type: "slider",
+  type: SLIDER,
   name: numberOfSpokes,
   key: NUMBER_OF_SPOKES,
   sliderStart: 3,
@@ -83,26 +102,26 @@ const numberOfSpokesSettings = {
 }
 
 const stepOfOriginSettings = {
-  type: "slider",
-  name: "Step of Origin", // TODO add to copy
+  type: SLIDER,
+  name: stepOfOrigin,
   key: STEP,
   sliderStart: 0,
   sliderStop: 8,
 }
 
 const colorPickerSettings = {
-  type: "colorPicker",
-  name: "Shape Color", // TODO add to copy
-  key: "strokeColor",
+  type: COLOR_PICKER,
+  name: strokeColor,
+  key: STROKE_COLOR,
 }
 
 const defaultControlSettings = {
   concentricCircles: {
-    name: "Concentric Circles", // TODO add this and all below to copy
-    key: "concentricCircles",
+    name: concentricCircles,
+    key: CONCENTRIC_CIRCLES,
     shouldShow: true,
     subControlsHidden: false,
-    lineThickness: 1, // TODO turn all numbers into consts
+    lineThickness: DEFAULT_LINE_THICKNESS, // TODO turn all numbers into consts
     range: [0, 1],
     strokeColor: "#000",
     subControls: [
@@ -112,13 +131,13 @@ const defaultControlSettings = {
     ],
   },
   concentricPolygons: {
-    name: "Concentric Polygon",
-    key: "concentricPolygons",
+    name: concentricPolygons,
+    key: CONCENTRIC_POLYGONS,
     shouldShow: true,
     subControlsHidden: false,
-    numberOfSides: 3,
-    rotation: 0,
-    lineThickness: 1,
+    numberOfSides: DEFAULT_NUMBER_OF_SIDES,
+    rotation: DEFAULT_ROTATION,
+    lineThickness: DEFAULT_LINE_THICKNESS,
     range: [0, 2],
     strokeColor: "#000",
     subControls: [
@@ -130,18 +149,18 @@ const defaultControlSettings = {
     ],
   },
   ringOfCircles: {
-    name: "Ring of Circles",
-    key: "ringOfCircles",
+    name: ringOfCircles,
+    key: RING_OF_CIRCLES,
     shouldShow: true,
     subControlsHidden: false,
-    numberOfCircles: 3,
-    rotation: 0,
-    lineThickness: 1,
+    numberOfShapes: DEFAULT_NUMBER_OF_SHAPES,
+    rotation: DEFAULT_ROTATION,
+    lineThickness: DEFAULT_LINE_THICKNESS,
     diameter: 200,
     step: 2,
     strokeColor: "#000",
     subControls: [
-      numberOfCirclesSettings,
+      numberOfShapesSettings,
       rotationSettings,
       lineThicknessSettings,
       diameterSettings,
@@ -150,14 +169,14 @@ const defaultControlSettings = {
     ],
   },
   ringOfPolygons: {
-    name: "Ring of Polygons",
-    key: "ringOfPolygons",
+    name: ringOfPolygons,
+    key: RING_OF_POLYGONS,
     shouldShow: true,
     subControlsHidden: false,
-    numberOfShapes: 3,
-    numberOfSides: 6,
-    rotation: 0,
-    lineThickness: 1,
+    numberOfShapes: DEFAULT_NUMBER_OF_SHAPES,
+    numberOfSides: DEFAULT_NUMBER_OF_SIDES,
+    rotation: DEFAULT_ROTATION,
+    lineThickness: DEFAULT_LINE_THICKNESS,
     diameter: 20,
     step: 1,
     strokeColor: "#000",
@@ -172,13 +191,13 @@ const defaultControlSettings = {
     ],
   },
   radiantLines: {
-    name: "Radiant Lines",
-    key: "radiantLines",
+    name: radiantLines,
+    key: RADIANT_LINES,
     shouldShow: true,
     subControlsHidden: false,
-    numberOfSpokes: 3,
-    rotation: 0,
-    lineThickness: 1,
+    numberOfSpokes: DEFAULT_NUMBER_OF_SPOKES,
+    rotation: DEFAULT_ROTATION,
+    lineThickness: DEFAULT_LINE_THICKNESS,
     range: [0, 1],
     strokeColor: "#000",
     subControls: [
@@ -190,13 +209,13 @@ const defaultControlSettings = {
     ],
   },
   radiantDots: {
-    name: "Radiant Dots",
-    key: "radiantDots",
+    name: radiantDots,
+    key: RADIANT_DOTS,
     shouldShow: true,
     subControlsHidden: false,
-    numberOfSpokes: 3,
-    rotation: 0,
-    lineThickness: 1,
+    numberOfSpokes: DEFAULT_NUMBER_OF_SPOKES,
+    rotation: DEFAULT_ROTATION,
+    lineThickness: DEFAULT_LINE_THICKNESS,
     range: [0, 1],
     strokeColor: "#000",
     subControls: [

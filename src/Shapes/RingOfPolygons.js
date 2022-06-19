@@ -9,7 +9,7 @@ const RingOfShapes = (p5, state) => {
   const angle = 360 / numberOfShapes
   const radius = state.diameter
 
-  p5.stroke(p5.color(state.strokeColor)) // TODO use state for this value
+  p5.stroke(p5.color(state.strokeColor)) 
   // p5.fill(p5.color(255, 52, 154)) // TODO use state for this value and create toggle to allow for hollow shapes
   p5.noFill()
   p5.strokeWeight(weight)

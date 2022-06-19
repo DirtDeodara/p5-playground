@@ -1,25 +1,32 @@
 const constants = {
-  SHOULD_SHOW: "shouldShow", 
+  SHOULD_SHOW: "shouldShow",
   LINE_THICKNESS: "lineThickness",
-  lineThickness: "Line Thickness", // TODO move these strings into a copy file
   NUMBER_OF_SIDES: "numberOfSides",
-  numberOfSides: "Number of Sides",
-  NUMBER_OF_CIRCLES: "numberOfCircles",
-  numberOfCircles: "Number of Circles",
   NUMBER_OF_SHAPES: "numberOfShapes",
-  numberOfShapes: "Number of Shapes",
   NUMBER_OF_SPOKES: "numberOfSpokes",
-  numberOfSpokes: "Number of Spokes",
+  STROKE_COLOR: "strokeColor",
+  ROTATION: "rotation",
+  ADD_CONTROL: "addControl",
   STEP: "step",
-  step: "Step",
   DIAMETER: "diameter",
-  diameter: "Diameter",
+  SLIDER: "slider",
   RANGE: "range",
-  CRYSTAL_SIZE: 800, 
+  COLOR_PICKER: "colorPicker",
+  CONCENTRIC_CIRCLES: "concentricCircles",
+  CONCENTRIC_POLYGONS: "concentricPolygons",
+  RING_OF_CIRCLES: "ringOfCircles",
+  RING_OF_POLYGONS: "ringOfPolygons",
+  RADIANT_LINES: "radiantLines",
+  RADIANT_DOTS: "radiantDots",
+  CRYSTAL_SIZE: 800, // TODO eventually this should be made variable
   EXTRA_ROTATION: 270,
   RADIUS: 800 / 2,
-  STEPS_OUT: 8,
-  SINGLE_STEP: (800 / 2) / 8
+  STEPS_OUT: 8,  // TODO eventually this should be made variable
+  SINGLE_STEP: 800 / 2 / 8,
+  DEFAULT_LINE_THICKNESS: 1,
+  DEFAULT_NUMBER_OF_SIDES: 3,
+  DEFAULT_ROTATION: 0,
+  DEFAULT_NUMBER_OF_SPOKES: 3
 }
 
 export default constants

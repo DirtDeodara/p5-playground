@@ -2,7 +2,7 @@ import {
   lineThicknessSettings,
   startStopSettings,
   colorPickerSettings,
-} from "./controls/controlSettings"
+} from "./controls/defaultControlSettings"
 
 const initialState = {
   concentricCircles1: {
@@ -20,13 +20,6 @@ const initialState = {
     ],
   },
 }
-
-/**
- * useReducer will be invoked in App(?) with this reducer as an argument.
- * Then the dispatch function returned from useReducer will passed to a
- * handleStateChange function that is then used in the onChange function
- * of each input.
- */
 
 const appStateReducer = (state, action) => {
   const { type, payload } = action
