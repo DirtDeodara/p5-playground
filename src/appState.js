@@ -10,6 +10,7 @@ const initialState = {
     key: "concentricCircles",
     shouldShow: true,
     subControlsHidden: false,
+    isDeleted: false,
     lineThickness: 1,
     range: [0, 2],
     strokeColor: "#000",

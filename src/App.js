@@ -22,7 +22,6 @@ const App = () => {
 
   const [appState, appStateDispatch] = useReducer(appStateReducer, initState)
 
-
   useEffect(() => {
     localStorage.setItem("state", JSON.stringify(appState))
   }, [appState])
@@ -38,7 +37,7 @@ const App = () => {
     // Where we declare which shapes to render
     p5.draw = () => {
       Object.values(appState).forEach((stateObj, i) => {
-        if (stateObj.shouldShow) {
+        if (stateObj.shouldShow && !stateObj.isDeleted) {
           switch (stateObj.key) {
             case "concentricCircles":
               return ConcentricCircles(p5, stateObj)
@@ -46,12 +45,12 @@ const App = () => {
               return ConcentricPolygons(p5, stateObj)
             case "ringOfCircles":
               return RingOfCircles(p5, stateObj)
+            case "ringOfPolygons":
+              return RingOfPolygons(p5, stateObj)
             case "radiantLines":
               return RadiantLines(p5, stateObj)
             case "radiantDots":
               return RadiantDots(p5, stateObj)
-            case "ringOfPolygons":
-              return RingOfPolygons(p5, stateObj)
             default:
               break
           }
@@ -93,9 +92,11 @@ const App = () => {
         </div>
         <FormGroup>
           {Object.values(appState).map((stateObj, i) => {
-            const { key } = stateObj
+            const { key, isDeleted } = stateObj
             const stateObjectName = `${key}${i + 1}`
-            return ShapeControl(stateObjectName, stateObj, appStateDispatch)
+            return isDeleted
+              ? null
+              : ShapeControl(stateObjectName, stateObj, appStateDispatch)
           })}
         </FormGroup>
       </div>

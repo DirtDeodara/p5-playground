@@ -9,6 +9,7 @@ import {
 } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import ExpandLessIcon from "@mui/icons-material/ExpandLess"
+import DeleteIcon from "@mui/icons-material/Delete"
 import constants from "../utils/constants"
 
 const { SHOULD_SHOW } = constants
@@ -34,25 +35,40 @@ const ShapeControl = (stateObjectName, state, dispatch) => {
   return (
     <div className="formItem" key={stateObjectName}>
       <div className="topBar">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={state.shouldShow}
-              onChange={(e) =>
-                handleShapeStateChange(
-                  e,
+        <div>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={state.shouldShow}
+                onChange={(e) =>
+                  handleShapeStateChange(
+                    e,
+                    stateObjectName,
+                    SHOULD_SHOW,
+                    dispatch
+                  )
+                }
+              />
+            }
+            label={name}
+          />
+          <IconButton
+            onClick={(e) => {
+              dispatch({
+                type: "updateState",
+                payload: {
+                  key: "isDeleted",
+                  value: !state.isDeleted,
                   stateObjectName,
-                  SHOULD_SHOW,
-                  dispatch
-                )
-              }
-            />
-          }
-          label={name}
-        />
+                },
+              })
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </div>
         <IconButton
           onClick={(e) => {
-            console.log(e)
             dispatch({
               type: "updateState",
               payload: {
